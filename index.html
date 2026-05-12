@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hội thảo Nghiên cứu Khoa học SV 2025-2026 | Đại học Hòa Bình</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── BASE ── */
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; }
+        
+        /* ── CSS VARIABLES CHO TÔNG MÀU XANH & HIỆU ỨNG KÍNH ── */
+        :root {
+            --bg-main: #f8fafc;       
+            --text-main: #1e293b;     
+            --text-muted: #475569;    
+            --blue-deep: #0f172a;     
+            --blue-primary: #1e3a8a;  /* Blue 900 - ĐH Hòa Bình */
+            --blue-mid: #2563eb;      /* Blue 600 */
+            --blue-light: #eff6ff;    
+            --accent-primary: #0284c7; /* Sky 600 - Nhấn */
+            --accent-light: #38bdf8;   /* Sky 400 */
+            
+            /* Liquid Glass Variables */
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 8px 32px rgba(30, 58, 138, 0.08);
+            --glass-inset: inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        body { 
+            font-family: 'Be Vietnam Pro', sans-serif; 
+            background: var(--bg-main); 
+            color: var(--text-main); 
+            overflow-x: hidden; 
+        }
+
+        /* ══════════════════════════════════════
+           LIQUID GLASS SYSTEM (TĂNG CƯỜNG)
+        ══════════════════════════════════════ */
+        .glass-card, .stat-pill, .hero-subtitle-box, .icon-circle, .info-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px) saturate(150%);
+            -webkit-backdrop-filter: blur(24px) saturate(150%);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), var(--glass-inset);
+            color: var(--text-main);
+        }
+        
+        .glass-card {
+            transition: all 0.4s cubic-bezier(.4,0,.2,1);
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: #ffffff;
+            box-shadow: 0 12px 40px rgba(30, 58, 138, 0.12), inset 0 2px 2px rgba(255, 255, 255, 1);
+            transform: translateY(-5px);
+        }
+
+        /* ══════════════════════════════════════
+           BACKGROUND & ATMOSPHERE
+        ══════════════════════════════════════ */
+        .hero-bg {
+            background:
+                radial-gradient(ellipse 120% 80% at 20% 40%, rgba(37, 99, 235, 0.1) 0%, transparent 60%),
+                radial-gradient(ellipse 80% 60% at 80% 60%, rgba(2, 132, 199, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 100% 100% at 50% 0%, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.85) 100%),
+                url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+
+        .orb {
+            position: absolute; border-radius: 50%; filter: blur(80px);
+            animation: float-orb 15s ease-in-out infinite; pointer-events: none;
+        }
+        /* Orb màu xanh */
+        .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(30,58,138,0.15) 0%, transparent 70%); top: -120px; left: -100px; animation-delay: 0s; }
+        .orb-2 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(2,132,199,0.12) 0%, transparent 70%); top: 60px; right: -80px; animation-delay: -5s; }
+        .orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(14,165,233,0.1) 0%, transparent 70%); bottom: -50px; left: 30%; animation-delay: -10s; }
+
+        @keyframes float-orb {
+            0%,100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -40px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        .section-dark { background: #ffffff; }
+        .section-mid { background: #f8fafc; }
+        .section-alt { background: #f1f5f9; }
+
+        .grid-overlay {
+            position: absolute; inset: 0; pointer-events: none; z-index: 0;
+            background-image: linear-gradient(rgba(30,58,138,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(30,58,138,0.03) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+
+        /* ══════════════════════════════════════
+           NAVBAR (Liquid Glass)
+        ══════════════════════════════════════ */
+        #navbar {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.03), inset 0 -1px 0 rgba(255,255,255,0.5);
+            transition: all 0.3s;
+        }
+        .nav-link {
+            position: relative; color: var(--text-muted);
+            font-size: 0.9rem; font-weight: 600; letter-spacing: 0.02em;
+            padding: 4px 2px; transition: color 0.2s;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+            background: linear-gradient(90deg, var(--blue-mid), var(--accent-light));
+            border-radius: 2px; transition: width 0.3s cubic-bezier(.4,0,.2,1);
+        }
+        .nav-link:hover { color: var(--blue-primary); }
+        .nav-link:hover::after { width: 100%; }
+
+        #mobile-menu {
+            display: none; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        #mobile-menu.open { display: block; }
+        .mobile-nav-item { display:block; padding:12px 16px; border-radius:8px; color:var(--text-muted); font-weight:600; transition:all 0.2s; }
+        .mobile-nav-item:hover { background: var(--blue-light); color: var(--blue-primary); padding-left:24px; }
+
+        /* ══════════════════════════════════════
+           HERO
+        ══════════════════════════════════════ */
+        .hero-title {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-weight: 900; 
+            line-height: 1.35; 
+            padding: 0.15em 0; 
+            background: linear-gradient(135deg, var(--blue-primary) 0%, var(--accent-primary) 50%, var(--accent-light) 100%);
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-theme-highlight {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(56, 189, 248, 0.4);
+            box-shadow: 0 10px 40px rgba(2, 132, 199, 0.15), inset 0 2px 5px rgba(255,255,255,1);
+            position: relative;
+        }
+        .hero-theme-highlight::before {
+            content: '';
+            position: absolute; inset: -2px; border-radius: inherit; z-index: -1;
+            background: linear-gradient(135deg, rgba(30,58,138,0.2), rgba(56,189,248,0.2));
+            filter: blur(10px);
+        }
+        
+        .info-box {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 16px; border-radius: 16px; text-align: center;
+            transition: all 0.3s; height: 100%;
+        }
+        .info-box:hover {
+            transform: translateY(-3px);
+            border-color: rgba(56, 189, 248, 0.5);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .mini-timeline-item {
+            position: relative;
+            flex: 1;
+            padding: 10px;
+        }
+        .mini-timeline-item:not(:last-child)::after {
+            content: '\f054'; /* FontAwesome chevron-right */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-light);
+            font-size: 0.8rem;
+        }
+        @media (max-width: 639px) {
+            .mini-timeline-item:not(:last-child)::after {
+                content: '\f078'; /* chevron-down for mobile */
+                right: 50%;
+                top: auto;
+                bottom: -15px;
+                transform: translateX(50%);
+            }
+        }
+
+        /* Timeline vertical line on mobile */
+        @media (max-width: 767px) {
+            .timeline-mobile-wrapper {
+                position: relative;
+            }
+            .timeline-mobile-wrapper::before {
+                content: '';
+                position: absolute;
+                left: 50%;
+                top: 40px;
+                bottom: 40px;
+                width: 2px;
+                transform: translateX(-50%);
+                background: linear-gradient(180deg, rgba(37,99,235,0.35), rgba(30,58,138,0.05));
+                border-radius: 99px;
+                z-index: 0;
+                pointer-events: none;
+            }
+        }
+
+        .particle {
+            position: absolute; border-radius: 50%; pointer-events: none;
+            background: rgba(2, 132, 199, 0.12);
+            animation: float-p linear infinite;
+        }
+        @keyframes float-p {
+            0% { transform: translateY(100%) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-200px) rotate(720deg); opacity: 0; }
+        }
+
+        /* ══════════════════════════════════════
+           SECTION HEADERS & UI ELEMENTS
+        ══════════════════════════════════════ */
+        .section-title {
+            font-size: 2.2rem; font-weight: 900; color: var(--blue-primary);
+            letter-spacing: -0.01em; text-transform: uppercase;
+        }
+        .section-divider {
+            width: 72px; height: 5px; border-radius: 99px;
+            background: linear-gradient(90deg, var(--blue-primary), var(--accent-light));
+            margin: 16px auto 0;
+            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.3);
+        }
+
+        .icon-circle {
+            width: 56px; height: 56px; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; font-size: 1.4rem; color: var(--blue-mid);
+        }
+        .check-item { display: flex; gap: 12px; align-items: flex-start; }
+        .check-item i { color: var(--accent-primary); margin-top: 5px; flex-shrink: 0; }
+        .check-item p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+        .benefit-card {
+            display: flex; gap: 16px; align-items: flex-start;
+            padding: 24px; border-radius: 20px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.9);
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 8px 24px rgba(30, 58, 138, 0.05), inset 0 1px 1px rgba(255,255,255,1);
+            transition: all 0.3s;
+        }
+        .benefit-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 58, 138, 0.08); }
+
+        .timeline-node { position: relative; text-align: center; }
+        .timeline-circle {
+            width: 80px; height: 80px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; margin: 0 auto 20px;
+            position: relative; z-index: 2;
+            transition: all 0.4s;
+        }
+        .timeline-node:hover .timeline-circle { transform: scale(1.1) translateY(-5px); box-shadow: 0 10px 25px rgba(2, 132, 199, 0.2), inset 0 2px 2px #fff; }
+        .timeline-line {
+            position: absolute; top: 72px; left: calc(50% + 40px);
+            width: calc(100% - 80px); height: 3px; z-index: 1;
+            background: linear-gradient(90deg, rgba(37,99,235,0.4), rgba(30,58,138,0.05));
+        }
+
+        /* ══════════════════════════════════════
+           BUTTONS & SCROLL
+        ══════════════════════════════════════ */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue-primary) 0%, var(--accent-primary) 100%);
+            color: #fff; font-weight: 700; border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.25), inset 0 1px 1px rgba(255,255,255,0.4);
+            transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px 28px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(2, 132, 199, 0.35); color: #fff;}
+        
+        .btn-glow {
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4), inset 0 1px 1px rgba(255,255,255,0.5);
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.7), inset 0 1px 1px rgba(255,255,255,0.8);
+            color: #fff;
+        }
+
+        .btn-outline-blue {
+            background: rgba(255,255,255,0.8); color: var(--blue-primary); font-weight: 700; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.9); padding: 12px 28px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03), inset 0 1px 1px rgba(255,255,255,1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-outline-blue:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(30, 58, 138, 0.1); }
+
+        code { background: rgba(37,99,235,0.08); color: var(--blue-mid); padding: 2px 8px; border-radius: 6px; font-size: 0.85em; font-weight: 600; border: 1px solid rgba(37,99,235,0.15); }
+        ::selection { background: rgba(2, 132, 199, 0.2); color: var(--blue-primary); }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1); }
+        .reveal.visible { opacity: 1; transform: none; }
+        .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-left.visible { opacity: 1; transform: none; }
+        .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-right.visible { opacity: 1; transform: none; }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════ -->
+<header id="navbar">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center max-w-7xl">
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+            <img src="logo.png"
+                 onerror="this.onerror=null; this.src='https://placehold.co/50x50/1e3a8a/FFF?text=HB';"
+                 alt="Logo ĐH Hòa Bình"
+                 class="h-10 w-auto object-contain rounded-lg shadow-sm">
+            <div class="hidden sm:block border-l border-slate-300 pl-3">
+                <span class="block text-xs font-bold text-blue-900 uppercase tracking-widest leading-tight">Hội thảo Nghiên cứu Khoa học Sinh viên</span>
+                <span class="block text-xs font-bold text-sky-600">Năm học 2025-2026</span>
+            </div>
+        </div>
+
+        <nav class="hidden lg:flex items-center gap-8">
+            <a href="#trangchu" class="nav-link">Trang chủ</a>
+            <a href="#gioithieu" class="nav-link">Giới thiệu</a>
+            <a href="#quyenloi" class="nav-link">Quyền lợi</a>
+            <a href="#thele" class="nav-link">Thể lệ</a>
+            <a href="#lich-trinh" class="nav-link">Lịch trình chi tiết</a>
+        </nav>
+
+        <div class="flex items-center gap-4">
+            <a href="#dangky" class="btn-primary hidden md:inline-flex text-sm py-2 px-5">Đăng ký ngay</a>
+            <button id="menu-toggle" class="lg:hidden text-slate-600 hover:text-blue-900 p-2 rounded-lg hover:bg-slate-100 transition" aria-label="Menu">
+                <i class="fas fa-bars text-xl" id="menu-icon"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu">
+        <div class="container mx-auto px-4 py-4 flex flex-col gap-2">
+            <a href="#trangchu"   class="mobile-nav-item">Trang chủ</a>
+            <a href="#gioithieu" class="mobile-nav-item">Giới thiệu</a>
+            <a href="#quyenloi"  class="mobile-nav-item">Quyền lợi</a>
+            <a href="#thele"     class="mobile-nav-item">Thể lệ bài viết</a>
+            <a href="#lich-trinh" class="mobile-nav-item">Lịch trình</a>
+            <a href="#dangky" class="btn-primary py-3 mt-4 w-full text-center">Đăng ký ngay</a>
+        </div>
+    </div>
+</header>
+
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section id="trangchu" class="hero-bg relative min-h-[95vh] flex items-center overflow-hidden pb-12">
+    <div class="grid-overlay"></div>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div id="particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+    <div class="container mx-auto px-4 max-w-5xl text-center relative z-10 py-16">
+        
+        <!-- YÊU CẦU 1: Tiêu đề nhỏ lại, 2 dòng trên PC, 3 dòng trên Mobile -->
+        <h1 class="hero-title text-xl sm:text-xl md:text-2xl lg:text-3xl mt-6 mb-8 reveal delay-1 px-2 leading-[1.15]">
+            HỘI THẢO<br>NGHIÊN CỨU KHOA HỌC SINH VIÊN NĂM HỌC 2025–2026<br class="sm:hidden">
+        </h1>
+
+        <!-- YÊU CẦU 2: Làm nổi bật chủ đề -->
+        <div class="hero-theme-highlight inline-block px-8 md:px-14 py-6 mb-12 max-w-5xl reveal delay-2 mx-auto rounded-3xl">
+            <p class="text-lg md:text-xl font-medium text-slate-700 leading-relaxed">
+                <span class="block font-black mb-2 uppercase text-sky-600 tracking-wider text-xl">Chủ đề</span>
+                <em class="not-italic font-bold text-blue-900 text-xl md:text-3xl">"Sinh viên nghiên cứu khoa học<br class="hidden sm:block"> trong bối cảnh chuyển đổi số và phát triển bền vững"</em>
+            </p>
+        </div>
+
+        <!-- THAY ĐỔI MỚI: Thiết kế ngang (Pill Shape) cho Thời gian, Địa điểm, Hình thức -->
+        <div class="flex flex-col md:flex-row justify-center items-center gap-4 max-w-4xl mx-auto reveal delay-3 px-4">
+            
+            <!-- Ô 1: Thời gian -->
+            <div class="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-6 py-3.5 rounded-full shadow-md border border-sky-200">
+                <i class="fas fa-calendar-alt text-sky-600 text-xl"></i>
+                <span class="font-bold text-blue-950 text-sm md:text-base tracking-wide">25/06/2026</span>
+            </div>
+            
+            <!-- Ô 2: Địa điểm -->
+            <div class="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-6 py-3.5 rounded-full shadow-md border border-sky-200">
+                <i class="fas fa-map-marker-alt text-sky-600 text-xl"></i>
+                <span class="font-bold text-blue-950 text-sm md:text-base tracking-wide">Trường Đại học Hòa Bình</span>
+            </div>
+            
+            <!-- Ô 3: Hình thức -->
+            <div class="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-6 py-3.5 rounded-full shadow-md border border-sky-200">
+                <i class="fas fa-laptop-house text-sky-600 text-xl"></i>
+                <span class="font-bold text-blue-950 text-sm md:text-base tracking-wide">Trực tiếp</span>
+            </div>
+
+        </div>
+
+        <!-- YÊU CẦU 4: Thêm tóm tắt lịch trình lên Hero -->
+        <div class="mt-12 max-w-4xl mx-auto bg-white/40 backdrop-blur-md rounded-2xl p-4 md:p-6 border border-white/60 shadow-sm reveal delay-4">
+            <h3 class="text-xl font-black text-blue-800 uppercase tracking-widest mb-4 text-center">Lịch trình</h3>
+            <div class="flex flex-col sm:flex-row justify-between items-center text-center gap-6 sm:gap-2">
+                <div class="mini-timeline-item">
+                    <span class="block text-xl mb-1 text-sky-600"><i class="fas fa-paper-plane"></i></span>
+                    <span class="block font-bold text-blue-900 text-base">Hạn nộp bài</span>
+                    <span class="block text-slate-600 text-xs mt-1">12/06/2026</span>
+                </div>
+                <div class="mini-timeline-item">
+                    <span class="block text-xl mb-1 text-blue-600"><i class="fas fa-users-cog"></i></span>
+                    <span class="block font-bold text-blue-900 text-base">Tổ chức Hội thảo</span>
+                    <span class="block text-slate-600 text-xs mt-1">25/06/2026</span>
+                </div>
+                <div class="mini-timeline-item">
+                    <span class="block text-xl mb-1 text-indigo-600"><i class="fas fa-book"></i></span>
+                    <span class="block font-bold text-blue-900 text-base">Xuất bản Kỷ yếu</span>
+                    <span class="block text-slate-600 text-xs mt-1">Tháng 07/2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nút CTA -->
+        <div class="mt-12 flex flex-col sm:flex-row gap-5 justify-center reveal delay-4">
+            <a href="#dangky" class="btn-primary text-base px-10">
+                Nộp bài ngay <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+            <a href="#gioithieu" class="btn-outline-blue text-base px-10">
+                Tìm hiểu thêm <i class="fas fa-angle-down ml-1"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     GIỚI THIỆU
+═══════════════════════════════════════ -->
+<section id="gioithieu" class="py-24 section-mid relative overflow-hidden">
+    <!-- Hiệu ứng chìm -->
+    <div class="grid-overlay"></div>
+    <i class="fas fa-atom absolute -left-32 top-1/4 text-[400px] text-blue-500 opacity-[0.03] rotate-12 pointer-events-none"></i>
+    <div class="absolute right-0 bottom-0 w-[400px] h-[400px] bg-sky-200 rounded-full filter blur-[150px] opacity-30 pointer-events-none"></div>
+
+    <div class="container mx-auto px-4 max-w-6xl relative z-10">
+
+        <div class="text-center mb-16 reveal">
+            <h2 class="section-title">Giới thiệu Hội thảo</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-10">
+            <!-- Mục đích -->
+            <div class="reveal-left">
+                <h3 class="text-xl font-bold text-blue-900 mb-6 flex items-center gap-4">
+                    <span class="icon-circle"><i class="fas fa-bullseye"></i></span>
+                    Mục đích &amp; Ý nghĩa
+                </h3>
+                <div class="space-y-6">
+                    <div class="check-item"><i class="fas fa-check-circle fa-sm"></i><p>Tạo diễn đàn học thuật để sinh viên trình bày, chia sẻ và phản biện kết quả Nghiên cứu Khoa học.</p></div>
+                    <div class="check-item"><i class="fas fa-check-circle fa-sm"></i><p>Thúc đẩy phong trào Nghiên cứu Khoa học liên ngành, liên trường và gắn với thực tiễn.</p></div>
+                    <div class="check-item"><i class="fas fa-check-circle fa-sm"></i><p>Tạo bước đệm hoàn thiện đề tài, tuyển chọn công trình tiêu biểu tham gia Giải thưởng Sinh viên Nghiên cứu Khoa học 2025-2026.</p></div>
+                    <div class="check-item"><i class="fas fa-check-circle fa-sm"></i><p>Tạo cơ hội tiếp cận phản biện từ các nhà khoa học, giảng viên và chuyên gia.</p></div>
+                </div>
+            </div>
+
+            <!-- Đối tượng -->
+            <div class="glass-card p-8 reveal-right">
+                <h3 class="text-xl font-bold text-blue-900 mb-6 flex items-center gap-4">
+                    <span class="icon-circle"><i class="fas fa-users"></i></span>
+                    Đối tượng tham gia
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex gap-4 items-start">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">1</span>
+                        <p class="text-base leading-relaxed text-slate-700 pt-1">SV/nhóm SV các trường Đại học có đề tài Nghiên cứu Khoa học năm học 2025-2026.</p>
+                    </div>
+                    <div class="flex gap-4 items-start border-t border-slate-200/50 pt-4">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">2</span>
+                        <p class="text-base leading-relaxed text-slate-700 pt-1">SV/nhóm SV đã và đang thực hiện khóa luận, đồ án tốt nghiệp có kết quả nghiên cứu.</p>
+                    </div>
+                    <div class="flex gap-4 items-start border-t border-slate-200/50 pt-4">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">3</span>
+                        <p class="text-base leading-relaxed text-slate-700 pt-1">SV/nhóm SV có các công trình Nghiên cứu Khoa học ngoài 2 đối tượng trên mong muốn chia sẻ, trao đổi và công bố tại hội thảo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lĩnh vực nhận bài -->
+        <div class="mt-24 reveal">
+            <div class="glass-card p-8 md:p-12 text-center border-t-4 border-blue-500 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 text-blue-50 opacity-60">
+                    <i class="fas fa-layer-group text-[160px]"></i>
+                </div>
+                
+                <h3 class="text-2xl md:text-3xl font-bold text-blue-900 mb-6 relative z-10 flex items-center justify-center gap-4">
+                    <i class="fas fa-book-reader text-sky-500"></i> Lĩnh vực nhận bài
+                </h3>
+                
+                <p class="text-lg md:text-xl text-slate-700 max-w-3xl mx-auto leading-relaxed relative z-10 font-medium">
+                    Hội thảo chào đón các nghiên cứu thuộc mọi lĩnh vực đào tạo, đặc biệt khuyến khích đề tài liên ngành, ứng dụng thực tiễn hoặc đổi mới sáng tạo.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     QUYỀN LỢI TÁC GIẢ
+═══════════════════════════════════════ -->
+<section id="quyenloi" class="py-24 section-dark relative overflow-hidden border-y border-slate-200/60">
+    <!-- Hiệu ứng chìm -->
+    <i class="fas fa-award absolute -right-20 top-10 text-[350px] text-blue-600 opacity-[0.03] -rotate-12 pointer-events-none"></i>
+    <div class="grid-overlay"></div>
+
+    <div class="container mx-auto px-4 max-w-6xl relative z-10">
+        <div class="text-center mb-16 reveal">
+            <h2 class="section-title">Quyền lợi Tác giả</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 items-stretch reveal-left">
+            <div class="benefit-card flex-col items-center text-center p-8" style="--accent:#2563eb">
+                <div class="icon-circle mb-6 bg-blue-50 border-blue-200 text-blue-600 shadow-inner w-16 h-16 text-2xl">
+                    <i class="fas fa-book-medical"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 text-lg">Xuất bản Kỷ yếu ISBN</h4>
+                    <p class="text-slate-600 leading-relaxed text-base">Bài được chấp nhận sẽ in trong Kỷ yếu Hội thảo có mã ISBN và đăng tải trực tuyến trên website trường Đại học Hòa Bình.</p>
+                </div>
+            </div>
+            <div class="benefit-card flex-col items-center text-center p-8" style="--accent:#0284c7">
+                <div class="icon-circle mb-6 bg-sky-50 border-sky-200 text-sky-600 shadow-inner w-16 h-16 text-2xl">
+                    <i class="fas fa-microscope"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 text-lg">Đăng Tạp chí Khoa học</h4>
+                    <p class="text-slate-600 leading-relaxed text-base">Bài xuất sắc sẽ được xét đưa vào quy trình phản biện độc lập để đăng trên Tạp chí Khoa học và Công nghệ.</p>
+                </div>
+            </div>
+            <div class="benefit-card flex-col items-center text-center p-8" style="--accent:#4f46e5">
+                <div class="icon-circle mb-6 bg-indigo-50 border-indigo-200 text-indigo-600 shadow-inner w-16 h-16 text-2xl">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 text-lg">Điểm thưởng Giải NCKH</h4>
+                    <p class="text-slate-600 leading-relaxed text-base">Sinh viên trường, bài đăng Kỷ yếu được tính điểm cộng (tối đa 02 điểm) trong tiêu chí đánh giá Giải thưởng Sinh viên Nghiên cứu Khoa học cấp Trường.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     THỂ LỆ
+═══════════════════════════════════════ -->
+<section id="thele" class="py-24 section-alt relative overflow-hidden">
+    <!-- Hiệu ứng chìm -->
+    <div class="absolute -left-40 bottom-20 w-[600px] h-[600px] bg-blue-300 rounded-full filter blur-[200px] opacity-20 pointer-events-none"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container mx-auto px-4 max-w-6xl relative z-10">
+        <div class="text-center mb-16 reveal">
+            <h2 class="section-title">Thể lệ &amp; Yêu cầu bài viết</h2>
+            <div class="section-divider"></div>
+            <p class="mt-5 text-lg max-w-2xl mx-auto text-slate-600 leading-relaxed">
+                Tác giả vui lòng đọc kỹ các quy định dưới đây trước khi gửi bài để đảm bảo bài viết được đưa vào quy trình phản biện.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 items-stretch">
+            <!-- Card 1 -->
+            <div class="glass-card p-8 border-t-4 reveal delay-1" style="border-top-color:var(--blue-mid)">
+                <h3 class="font-bold text-blue-900 text-xl mb-6 flex items-center gap-3">
+                    <i class="fas fa-layer-group text-sky-500"></i> 1. Cấu trúc nội dung
+                </h3>
+                <ul class="space-y-4 text-slate-600 leading-relaxed text-base">
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-sky-500"></i><span><b class="text-slate-800">Tiêu đề:</b> Viết bằng Tiếng Việt và Tiếng Anh.</span></li>
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-sky-500"></i><span><b class="text-slate-800">Tóm tắt:</b> 150-200 chữ, khái quát nội dung chính.</span></li>
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-sky-500"></i><span><b class="text-slate-800">Từ khóa:</b> 3-5 từ khóa phản ánh chủ đề.</span></li>
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-sky-500"></i><span><b class="text-slate-800">Dung lượng:</b> Tối đa 10 trang (không quá 6.000 chữ).</span></li>
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-sky-500"></i><span><b class="text-slate-800">Nội dung chính:</b> Giới thiệu, Mục tiêu, Phương pháp, Kết quả, Kiến nghị.</span></li>
+                </ul>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="glass-card p-8 border-t-4 reveal delay-2" style="border-top-color:var(--accent-light)">
+                <h3 class="font-bold text-blue-900 text-xl mb-6 flex items-center gap-3">
+                    <i class="fas fa-file-word text-blue-500"></i> 2. Định dạng văn bản
+                </h3>
+                <ul class="space-y-4 text-slate-600 leading-relaxed text-base">
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-blue-500"></i><span><b class="text-slate-800">Khổ giấy &amp; Font:</b> A4, Times New Roman (Unicode), 13pt.</span></li>
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-blue-500"></i><span><b class="text-slate-800">Căn lề:</b> Trái 3cm, Phải 2cm, Trên/Dưới 2.5cm.</span></li>
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-blue-500"></i><span><b class="text-slate-800">Giãn dòng:</b> 1.5 lines.</span></li>
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-blue-500"></i>
+                        <span class="w-full"><b class="text-slate-800 block mb-2">Cú pháp tên file:</b><code class="block w-full break-all p-3 bg-blue-50 text-blue-800 rounded-lg border-blue-200">[Tên đơn vị]_[Tác giả chính]_[Tên bài vắn tắt]</code></span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="glass-card p-8 border-t-4 reveal delay-3" style="border-top-color:var(--accent-primary)">
+                <h3 class="font-bold text-blue-900 text-xl mb-6 flex items-center gap-3">
+                    <i class="fas fa-quote-right text-sky-600"></i> 3. Trích dẫn &amp; Tham khảo
+                </h3>
+                <ul class="space-y-4 text-slate-600 leading-relaxed text-base">
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-sky-600"></i><span><b class="text-slate-800">Trích dẫn trong bài:</b> Ghi rõ tác giả/tổ chức, năm. Trích nguyên văn đặt trong ngoặc kép kèm số trang.</span></li>
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-sky-600"></i><span><b class="text-slate-800">Tài liệu tham khảo:</b> Đặt cuối bài, theo Alphabet họ tác giả. Chỉ liệt kê nguồn đã trích dẫn.</span></li>
+                </ul>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="glass-card p-8 border-t-4 reveal delay-4" style="border-top-color:var(--blue-primary)">
+                <h3 class="font-bold text-blue-900 text-xl mb-6 flex items-center gap-3">
+                    <i class="fas fa-check-circle text-blue-600"></i> 4. Tiêu chí tuyển chọn
+                </h3>
+                <ul class="space-y-4 text-slate-600 leading-relaxed text-base">
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-blue-600"></i><span><b class="text-slate-800">Bắt buộc:</b> Chưa từng xuất bản trên bất kỳ hội thảo hay tạp chí khoa học nào trước đó.</span></li>
+                    <li class="flex gap-3"><i class="fas fa-caret-right mt-1.5 flex-shrink-0 text-blue-600"></i><span>Đánh giá: Tính mới · Phương pháp · Giá trị thực tiễn · Hình thức.</span></li>
+                </ul>
+            </div>
+
+            <!-- CTA Tạp chí -->
+            <div class="md:col-span-2 mt-6 reveal delay-1">
+                <div class="rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden shadow-2xl"
+                     style="background: linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%);">
+                    <div class="absolute inset-0 opacity-10 pointer-events-none flex items-end justify-end overflow-hidden">
+                        <i class="fas fa-book-open text-[250px] -mb-12 -mr-12 text-white"></i>
+                    </div>
+                    <div class="relative z-10 text-left flex-1">
+                        <h3 class="text-3xl font-bold mb-4 flex items-center gap-3 text-white">
+                            <i class="fas fa-info-circle text-sky-300"></i> Hướng dẫn Tạp chí KH&amp;CN
+                        </h3>
+                        <p class="text-lg mb-8 leading-relaxed text-blue-100 max-w-3xl">
+                            Để chuẩn bị bài viết đúng chuẩn học thuật và thuận lợi cho quá trình xét duyệt đăng trên
+                            <b class="text-white">Tạp chí Khoa học và Công nghệ Trường ĐHHB</b>, tác giả vui lòng xem tài liệu hướng dẫn chi tiết.
+                        </p>
+                        <a href="https://daihochoabinh.edu.vn/huong-dan-gui-bai-tap-chi-khoa-hoc-va-cong-nghe" target="_blank" rel="noopener"
+                           class="inline-flex items-center gap-3 bg-white text-blue-900 font-bold py-4 px-10 rounded-xl text-base hover:bg-sky-50 hover:scale-105 transition-all shadow-xl">
+                            Xem tài liệu hướng dẫn <i class="fas fa-external-link-alt text-sm"></i>
+                        </a>
+                    </div>
+                    <div class="relative z-10 flex-shrink-0 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/20 shadow-2xl flex flex-col items-center">
+                        <div class="bg-white p-2 rounded-xl">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://daihochoabinh.edu.vn/huong-dan-gui-bai-tap-chi-khoa-hoc-va-cong-nghe&color=1e3a8a"
+                                 alt="QR Code Hướng dẫn" class="w-32 h-32 object-contain" loading="lazy">
+                        </div>
+                        <span class="text-xs font-bold text-white uppercase mt-3 tracking-widest">Quét để xem</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     LỊCH TRÌNH CHI TIẾT
+═══════════════════════════════════════ -->
+<section id="lich-trinh" class="py-24 section-mid relative overflow-hidden">
+
+    <div class="container mx-auto px-4 max-w-6xl relative z-10">
+        <div class="text-center mb-24 reveal">
+            <h2 class="section-title">Lịch trình chi tiết</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-10 md:gap-6 relative items-stretch timeline-mobile-wrapper">
+            <!-- Timeline line desktop -->
+            <div class="hidden md:block absolute top-[72px] left-[calc(16.67%+40px)] right-[calc(16.67%+40px)] h-1 z-0 timeline-line rounded-full"></div>
+
+            <!-- Mốc 1 -->
+            <div class="timeline-node glass-card p-8 reveal delay-1 flex flex-col items-center">
+                <div class="timeline-circle glass-card mb-6 text-blue-600 border-2 border-blue-200">
+                    <i class="fas fa-file-upload"></i>
+                </div>
+                <h4 class="text-xl font-bold text-blue-900 mb-3">Đến 12/06/2026</h4>
+                <p class="text-slate-600 leading-relaxed text-base">Hạn chót gửi bản toàn văn (Full paper) cho Ban tổ chức. Sau 07 ngày nhận bài, BTC sẽ thông báo kết quả tuyển chọn.</p>
+                <div class="mt-auto pt-6">
+                    <span class="inline-block px-4 py-2 rounded-lg text-sm font-bold bg-blue-100 text-blue-800 border border-blue-200">Deadline</span>
+                </div>
+            </div>
+
+            <!-- Mốc 2 -->
+            <div class="timeline-node glass-card p-8 reveal delay-2 flex flex-col items-center">
+                <div class="timeline-circle glass-card mb-6 text-sky-600 border-2 border-sky-200">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h4 class="text-xl font-bold text-blue-900 mb-3">25/06/2026</h4>
+                <p class="text-slate-600 leading-relaxed text-base">Thời gian tổ chức Hội thảo. Hình thức Trực tiếp với phiên toàn thể và các phiên chuyên môn.</p>
+                <div class="mt-auto pt-6">
+                    <span class="inline-block px-4 py-2 rounded-lg text-sm font-bold bg-sky-100 text-sky-800 border border-sky-200">Hội thảo</span>
+                </div>
+            </div>
+
+            <!-- Mốc 3 -->
+            <div class="timeline-node glass-card p-8 reveal delay-3 flex flex-col items-center">
+                <div class="timeline-circle glass-card mb-6 text-blue-500 border-2 border-blue-300">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h4 class="text-xl font-bold text-blue-900 mb-3">Tháng 07/2026</h4>
+                <p class="text-slate-600 leading-relaxed text-base">Công bố trực tuyến và xuất bản Kỷ yếu Hội thảo có ISBN trên website của Trường Đại học Hòa Bình.</p>
+                <div class="mt-auto pt-6">
+                    <span class="inline-block px-4 py-2 rounded-lg text-sm font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">Xuất bản</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     ĐĂNG KÝ (CẬP NHẬT GIAO DIỆN & LINK)
+═══════════════════════════════════════ -->
+<section id="dangky" class="py-24 relative overflow-hidden bg-slate-50">
+    <div class="grid-overlay"></div>
+    <div class="container mx-auto px-4 max-w-6xl relative z-10 reveal">
+        
+        <div class="bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#0284c7] rounded-[40px] p-10 md:p-16 shadow-[0_20px_50px_rgba(30,58,138,0.3)] relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-12">
+            
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+            <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-400 rounded-full mix-blend-screen filter blur-[150px] opacity-20 pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
+            
+            <div class="flex-1 text-left relative z-10 w-full">
+                <span class="inline-block py-1.5 px-5 rounded-full bg-sky-400/20 text-sky-300 font-bold text-sm tracking-wider uppercase mb-6 border border-sky-400/30 shadow-inner">
+                    <i class="fas fa-rocket mr-2"></i> Gửi bài tham luận
+                </span>
+                
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white leading-tight" style="text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                    Sẵn sàng công bố <br class="hidden lg:block"/>nghiên cứu của bạn?
+                </h2>
+                
+                <p class="text-blue-100 text-lg mb-10 max-w-xl leading-relaxed">
+                    Quét mã QR hoặc nhấn nút để truy cập biểu mẫu nộp toàn văn. Hãy gửi bài ngay để không bỏ lỡ cơ hội chia sẻ học thuật và xuất bản uy tín!
+                </p>
+                
+                <a href="https://forms.gle/eKoSfQJMgA8gxdKk6" target="_blank" rel="noopener noreferrer" class="inline-flex px-10 py-4 text-lg rounded-xl items-center justify-center gap-3 bg-white text-blue-900 border border-blue-200 font-bold shadow-xl transition-all duration-300 hover:bg-blue-900 hover:text-white hover:border-blue-900 hover:shadow-2xl hover:-translate-y-0.5">
+                    <i class="fas fa-paper-plane"></i> Nộp bài trực tuyến ngay
+                </a>
+            </div>
+
+            <!-- Cập nhật phần nền thẻ QR thành màu trắng & Tự động tạo QR code -->
+            <div class="w-full lg:w-[400px] flex-shrink-0 relative z-10 group">
+                <div class="absolute inset-0 bg-sky-400 opacity-20 blur-2xl rounded-full group-hover:opacity-40 transition-opacity duration-500"></div>
+                
+                <!-- Nền thẻ đổi thành màu trắng (bg-white) để không bị tối khi chưa di chuột -->
+                <div class="bg-white p-8 rounded-3xl shadow-2xl relative text-center transform transition-transform duration-500 group-hover:scale-[1.02]">
+                    <div class="bg-white p-4 rounded-2xl mb-6 inline-block mx-auto relative overflow-hidden border border-slate-200 shadow-sm">
+                        <!-- Tạo QR Code từ link Google Form, khi bấm vào QR code cũng sẽ mở link -->
+                        <a href="https://forms.gle/eKoSfQJMgA8gxdKk6" target="_blank" rel="noopener noreferrer" class="block w-48 h-48 sm:w-56 sm:h-56 rounded-xl flex items-center justify-center p-2 bg-white hover:bg-slate-50 transition-colors">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://forms.gle/eKoSfQJMgA8gxdKk6&color=1e3a8a" 
+                                 alt="QR Code Nộp bài"
+                                 width="250" height="250"
+                                 loading="lazy"
+                                 class="w-full h-full object-contain">
+                        </a>
+                    </div>
+                    <p class="text-blue-900 font-bold text-sm tracking-wide uppercase">
+                        <i class="fas fa-camera mr-2 text-sky-500"></i> Quét mã để nộp bài
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer id="lienhe" class="relative bg-slate-50 border-t-4 border-sky-500">
+    <div class="container mx-auto px-4 max-w-6xl py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
+            <!-- Cột trái -->
+            <div class="flex flex-col justify-start">
+                <h3 class="text-lg font-bold text-blue-900 mb-4 uppercase tracking-wide">Trường Đại học Hòa Bình</h3>
+                <p class="text-slate-600 mb-3 leading-relaxed flex items-start text-base">
+                    <i class="fas fa-map-marker-alt w-6 mt-1 mr-2 text-sky-600 flex-shrink-0"></i>
+                    <span>Số 08 Bùi Xuân Phái, Mỹ Đình, Nam Từ Liêm, Hà Nội</span>
+                </p>
+                <p class="text-slate-600 leading-relaxed flex items-center text-base">
+                    <i class="fas fa-globe w-6 mr-2 text-sky-600 flex-shrink-0"></i>
+                    <a href="https://daihochoabinh.edu.vn" class="hover:text-blue-700 font-medium transition" target="_blank" rel="noopener">daihochoabinh.edu.vn</a>
+                </p>
+            </div>
+
+            <!-- Cột phải -->
+            <div class="flex flex-col justify-start md:text-right md:items-end">
+                <p class="font-bold text-blue-900 mb-4 uppercase tracking-wide text-lg">Ban Tổ chức Hội thảo</p>
+                <p class="text-slate-600 mb-3 leading-relaxed text-base">Phòng Quản lý Khoa học – Hợp tác Quốc tế & Xuất bản</p>
+                <p class="text-slate-600 leading-relaxed text-base">
+                    Email:
+                    <a href="mailto:phongqlkh@daihochoabinh.edu.vn"
+                       class="hover:text-sky-600 font-medium text-blue-700 transition ml-1">
+                        phongqlkh@daihochoabinh.edu.vn
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-t border-slate-200">
+        <div class="container mx-auto px-4 max-w-6xl py-6 text-sm text-center text-slate-500 font-medium">
+            &copy; 2026 Bản quyền thuộc về Trường Đại học Hòa Bình. Thiết kế bởi SV Nguyễn Quang Dương.
+        </div>
+    </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+<script>
+const menuToggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+const menuIcon   = document.getElementById('menu-icon');
+
+menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuIcon.className = isOpen ? 'fas fa-times text-xl' : 'fas fa-bars text-xl';
+});
+
+document.querySelectorAll('.mobile-nav-item, #mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        menuIcon.className = 'fas fa-bars text-xl';
+    });
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObserver.observe(el));
+
+function spawnParticle() {
+    const container = document.getElementById('particles');
+    if (!container) return;
+
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+        width:${size}px; height:${size}px;
+        left:${Math.random() * 100}%;
+        bottom: -10px;
+        opacity:${Math.random() * 0.4 + 0.1};
+        animation-duration:${Math.random() * 8 + 6}s;
+        animation-delay:${Math.random() * 4}s;
+    `;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 12000);
+}
+
+setInterval(spawnParticle, 800);
+for (let i = 0; i < 12; i++) setTimeout(spawnParticle, i * 200);
+
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+        navbar.style.background = 'rgba(255,255,255,0.85)';
+        navbar.style.boxShadow = '0 8px 32px rgba(30, 58, 138, 0.08), inset 0 -1px 0 rgba(255,255,255,0.8)';
+    } else {
+        navbar.style.background = 'rgba(255,255,255,0.7)';
+        navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.03), inset 0 -1px 0 rgba(255,255,255,0.5)';
+    }
+}, { passive: true });
+</script>
+
+</body>
+</html>
